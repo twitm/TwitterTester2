@@ -6,18 +6,17 @@ import java.io.IOException;
 
 /**
  * TIS 27-7-2014.20:10
- *
+ * <p/>
  * Runs shell script remotely
- *
  */
 public class RunRemoteScript {
 
     public static void run(String resource, String params, String host, ILog log) throws IOException, InterruptedException {
 
 
-        String hostname = RunShellCommand.executeRemoteHost("hostname",host);
+        String hostname = RunShellCommand.executeRemoteHost("hostname", host);
 
-        log.write("Executing script "+resource+" on "+hostname+" ("+host+")");
+        log.write("Executing script " + resource + " on " + hostname + " (" + host + ")");
 
         WriteResource.write(resource);
 
@@ -25,14 +24,14 @@ public class RunRemoteScript {
         RunShellCommand.sendFile(resource, host);
 
         //Set Permissions
-        RunShellCommand.executeRemoteHost("chmod 755 "+resource,host);
+        RunShellCommand.executeRemoteHost("chmod 755 " + resource, host);
 
         //Execute
-        RunShellCommand.executeRemoteHost("./"+resource+" "+params+" > "+resource+".execute.log",host);
+        RunShellCommand.executeRemoteHost("./" + resource + " " + params + " > " + resource + ".execute.log", host);
 
 
         //Cleanup
-        RunShellCommand.executeRemoteHost("rm "+resource,host);
+        RunShellCommand.executeRemoteHost("rm " + resource, host);
         WriteResource.clean(resource);
 
 

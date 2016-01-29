@@ -68,21 +68,22 @@ public class SolrQueryFactory extends ABaseFactory {
     }
 
     public SolrQuery getRandomPhraseQuery() {
-        return new SolrQuery("text_t:"+ this.getRandomPhrase());
+        return new SolrQuery("text_t:" + this.getRandomPhrase());
     }
 
     public SolrQuery getRandomFilteredPhraseQuery() {
-        SolrQuery solrQuery = new SolrQuery("text_t:"+this.getRandomPhrase());
+        SolrQuery solrQuery = new SolrQuery("text_t:" + this.getRandomPhrase());
         solrQuery.addFilterQuery(this.getRandomFilter());
         return solrQuery;
     }
+
     public List<SolrQuery> getPhraseQueryList() {
         List<SolrQuery> solrQueryList = new ArrayList<SolrQuery>();
 
         String[] terms = this.getQueryStrings();
 
-        for(String term : terms) {
-            solrQueryList.add(new SolrQuery("text_t:"+term));
+        for (String term : terms) {
+            solrQueryList.add(new SolrQuery("text_t:" + term));
         }
 
         return solrQueryList;
@@ -94,14 +95,14 @@ public class SolrQueryFactory extends ABaseFactory {
         String[] terms = this.getQueryStrings();
         String[] filters = this.getFilters();
 
-        for(String term : terms) {
-            for(String filter : filters) {
-                SolrQuery solrQuery = new SolrQuery("text_t:"+term);
+        for (String term : terms) {
+            for (String filter : filters) {
+                SolrQuery solrQuery = new SolrQuery("text_t:" + term);
                 solrQuery.addFilterQuery(filter);
                 solrQueryList.add(solrQuery);
             }
         }
 
-        return  solrQueryList;
+        return solrQueryList;
     }
 }

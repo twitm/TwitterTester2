@@ -1,8 +1,8 @@
 package nl.tamasja.runnable;
 
-import nl.tamasja.tools.TestProfiler;
 import nl.tamasja.searchprovider.ISearchProvider;
 import nl.tamasja.tools.Profiler;
+import nl.tamasja.tools.TestProfiler;
 import nl.tamasja.tools.log.ILog;
 
 /**
@@ -16,7 +16,7 @@ public class RunExecuteRandomPhraseQuery implements Runnable {
     protected ILog log;
     protected boolean limitResults;
 
-    public RunExecuteRandomPhraseQuery(ILog log, TestProfiler testProfiler,ISearchProvider searchProvider, boolean limitResults) {
+    public RunExecuteRandomPhraseQuery(ILog log, TestProfiler testProfiler, ISearchProvider searchProvider, boolean limitResults) {
         this.log = log;
         this.testProfiler = testProfiler;
         this.searchProvider = searchProvider;
@@ -37,7 +37,7 @@ public class RunExecuteRandomPhraseQuery implements Runnable {
                 this.testProfiler.addResult(p.getRuntime());
             }
         } catch (Exception e) {
-            this.log.write("[WARNING] Exception in QueryRunnerTask: "+e.getMessage());
+            this.log.write("[WARNING] Exception in QueryRunnerTask: " + e.getMessage());
         }
     }
 }

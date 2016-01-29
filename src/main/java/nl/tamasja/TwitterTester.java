@@ -1,13 +1,7 @@
 package nl.tamasja;
 
-import nl.tamasja.data.ProfiledQueryResult;
-import nl.tamasja.searchprovider.ElasticSearchProvider;
 import nl.tamasja.searchprovider.ISearchProvider;
-import nl.tamasja.searchprovider.MongoDBProvider;
-import nl.tamasja.searchprovider.SolrProvider;
 import nl.tamasja.tools.log.ILog;
-
-import java.util.List;
 
 /**
  * TIS 28-8-2014.13:42
@@ -31,22 +25,16 @@ public class TwitterTester {
         log.write("=============== TwitterTester2 ===============");
 
 
-        for(ISearchProvider searchProvider : this.searchProviders) {
-            log.write("-------------------- "+searchProvider.getSearchProviderName()+" --------------------");
+        for (ISearchProvider searchProvider : this.searchProviders) {
+            log.write("-------------------- " + searchProvider.getSearchProviderName() + " --------------------");
 
 
-            if(this.runDeploy) {
+            if (this.runDeploy) {
                 searchProvider.deploy();
             }
 
-            TwitterProviderTester twitterProviderTester = new TwitterProviderTester(this.log,searchProvider,this.tweetStatusFilePath);
+            TwitterProviderTester twitterProviderTester = new TwitterProviderTester(this.log, searchProvider, this.tweetStatusFilePath);
             twitterProviderTester.run();
-
-
-
-
-
-
 
 
             searchProvider.close();
@@ -57,7 +45,7 @@ public class TwitterTester {
     }
 
     public void deployAll() {
-        for(ISearchProvider searchProvider : this.searchProviders) {
+        for (ISearchProvider searchProvider : this.searchProviders) {
             searchProvider.deploy();
             searchProvider.close();
         }

@@ -20,7 +20,7 @@ public class DeployElasticSearch implements IDeploySearchProvider {
 
 
         for (String hostname : this.servers) {
-            log.write("DeployElasticSearch - Running ElasticSearch Installer on "+hostname);
+            log.write("DeployElasticSearch - Running ElasticSearch Installer on " + hostname);
             RunRemoteScript.run("es_install.sh", "", hostname, log);
         }
 

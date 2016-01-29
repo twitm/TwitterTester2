@@ -31,7 +31,7 @@ public class DeployMongoDB implements IDeploySearchProvider {
         Thread.sleep(30000);
 
         // Set first 3 servers as config server
-        for (String hostname : Arrays.copyOfRange(this.servers,0,3)) {
+        for (String hostname : Arrays.copyOfRange(this.servers, 0, 3)) {
             RunRemoteScript.run("mdb_make_configserver.sh", "", hostname, log);
         }
 
@@ -54,10 +54,10 @@ public class DeployMongoDB implements IDeploySearchProvider {
         // Add shards to the mongo cluster
 
         for (String hostname : this.servers) {
-            String shellCmd = "mongo --host localhost --port 27017 --eval \"sh.addShard( \\\""+hostname+":27018\\\" )\"";
+            String shellCmd = "mongo --host localhost --port 27017 --eval \"sh.addShard( \\\"" + hostname + ":27018\\\" )\"";
             String fServer = this.servers[0];
-            log.write(fServer+" > "+shellCmd);
-            RunShellCommand.executeRemoteHost(shellCmd,fServer);
+            log.write(fServer + " > " + shellCmd);
+            RunShellCommand.executeRemoteHost(shellCmd, fServer);
         }
 
 

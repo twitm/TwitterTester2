@@ -1,7 +1,6 @@
 package nl.tamasja.tools;
 
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -24,7 +23,7 @@ public class TestProfiler {
     }
 
     public void addResult(long duration) {
-        if(this.enabled.get()) {
+        if (this.enabled.get()) {
             this.duration.addAndGet(duration);
             this.n.addAndGet(1);
         }

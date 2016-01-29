@@ -5,7 +5,6 @@ import nl.tamasja.searchprovider.ISearchProvider;
 import nl.tamasja.tools.Profiler;
 import nl.tamasja.tools.log.ILog;
 import nl.tamasja.twitter.Tweet;
-import org.elasticsearch.search.aggregations.metrics.max.Max;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -51,20 +50,20 @@ public class TweetScanner {
         String path = this.path;
 
 
-
         //log.write("TweetScanner - Searching for files in ["+path+"]..");
 
         File gzDirectory = new File(path);
         File[] listFiles = gzDirectory.listFiles(new FilenameFilter() {
             public boolean accept(File dir, String name) {
                 return name.toLowerCase().endsWith(".gz");
-            }});
+            }
+        });
 
         if (listFiles != null) {
-            log.write("TweetScanner - Found "+listFiles.length+" files in ["+path+"].");
+            log.write("TweetScanner - Found " + listFiles.length + " files in [" + path + "].");
             this.listFiles = listFiles;
         } else {
-            log.write("TweetScanner - Nothing found for "+path);
+            log.write("TweetScanner - Nothing found for " + path);
             //throw new Exception("Nothing found for "+path);
         }
     }
@@ -154,14 +153,14 @@ public class TweetScanner {
 
                     long added = count2 - count;
 
-                    double ops = ((double) added / (double) Math.max(profiler.getRunTimeSeconds(),1));
+                    double ops = ((double) added / (double) Math.max(profiler.getRunTimeSeconds(), 1));
 
-                    this.log.write("TweetScanner - New count " + count2 + ", needed: " + countRequired + ". IndexUp finished in " + profiler.getRunTimeSeconds() + "s. "+ops+" ops");
+                    this.log.write("TweetScanner - New count " + count2 + ", needed: " + countRequired + ". IndexUp finished in " + profiler.getRunTimeSeconds() + "s. " + ops + " ops");
                     if (count2 != countRequired) {
                         this.log.write("TweetScanner - Count mismatch detected.");
                     }
-                } else if(delta < 0) {
-                    this.log.write("TweetScanner - [WARNING]: Delta is below zero. delta: "+delta);
+                } else if (delta < 0) {
+                    this.log.write("TweetScanner - [WARNING]: Delta is below zero. delta: " + delta);
                     break;
                 } else {
                     break;
@@ -169,7 +168,7 @@ public class TweetScanner {
             }
 
         } catch (Exception e) {
-            this.log.write("[WARNING] Exception in TweetScanner: "+e.getMessage());
+            this.log.write("[WARNING] Exception in TweetScanner: " + e.getMessage());
         }
     }
 
@@ -181,41 +180,40 @@ public class TweetScanner {
         String lastTweetId = this.lastTweetId;
         int n = 0;
 
-        if(this.lastFile != null) {
+        if (this.lastFile != null) {
             skipFiles = true;
         }
 
 
-
         for (File filePath : this.listFiles) {
 
-            if(skipFiles) {
-                if(this.lastFile == filePath) {
+            if (skipFiles) {
+                if (this.lastFile == filePath) {
                     skipFiles = false;
                 }
             }
 
-            if(skipFiles) continue;
+            if (skipFiles) continue;
 
-            int loadTweets = Math.max(1,numTweets - n);
+            int loadTweets = Math.max(1, numTweets - n);
 
-            List<Tweet> statusFileTweetList = this.statusFileReader.readFile(filePath.getAbsolutePath(),loadTweets,lastTweetId);
+            List<Tweet> statusFileTweetList = this.statusFileReader.readFile(filePath.getAbsolutePath(), loadTweets, lastTweetId);
             this.lastFile = filePath;
             lastTweetId = null;
 
-            for(Tweet tweet : statusFileTweetList) {
+            for (Tweet tweet : statusFileTweetList) {
                 tweetList.add(tweet);
                 this.lastTweetId = tweet.getId();
                 n++;
 
-                if(n >= numTweets) break;
+                if (n >= numTweets) break;
 
             }
-            if(n >= numTweets) break;
+            if (n >= numTweets) break;
         }
 
-        if(tweetList.size() < numTweets) {
-            this.log.write("TweetScanner - [WARNING]: "+numTweets+" was requested, could only provide "+tweetList.size()+".");
+        if (tweetList.size() < numTweets) {
+            this.log.write("TweetScanner - [WARNING]: " + numTweets + " was requested, could only provide " + tweetList.size() + ".");
         }
 
 

@@ -3,6 +3,7 @@ package nl.tamasja.tester;
 import nl.tamasja.data.ProfiledQueryResult;
 import nl.tamasja.searchprovider.ISearchProvider;
 import nl.tamasja.tools.log.ILog;
+
 import java.util.List;
 
 /**
@@ -11,7 +12,7 @@ import java.util.List;
 public class ResponseTimeFilteredPhraseQueryTester extends ResponseTimePhraseQueryTester {
 
     public ResponseTimeFilteredPhraseQueryTester(ILog log, ILog resultLog, ISearchProvider searchProvider) {
-        super(log,resultLog,searchProvider);
+        super(log, resultLog, searchProvider);
     }
 
 
@@ -22,7 +23,6 @@ public class ResponseTimeFilteredPhraseQueryTester extends ResponseTimePhraseQue
     protected List<ProfiledQueryResult> runProfiledQueries() {
         return this.searchProvider.runTimedFilteredPhraseQueries();
     }
-
 
 
 }

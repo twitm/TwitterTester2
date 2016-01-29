@@ -1,19 +1,14 @@
 package nl.tamasja.tester;
 
 import nl.tamasja.data.ProfiledQueryResult;
-import nl.tamasja.runnable.RunExecuteRandomPhraseQuery;
 import nl.tamasja.searchprovider.ISearchProvider;
 import nl.tamasja.tools.Profiler;
-import nl.tamasja.tools.TestProfiler;
 import nl.tamasja.tools.log.ILog;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Hashtable;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 /**
  * TIS 1-9-2014.18:02
@@ -24,7 +19,6 @@ public class ResponseTimePhraseQueryTester implements ITester {
     protected ILog log;
     protected ILog resultLog;
     protected ISearchProvider searchProvider;
-
 
 
     public ResponseTimePhraseQueryTester(ILog log, ILog resultLog, ISearchProvider searchProvider) {
@@ -65,9 +59,9 @@ public class ResponseTimePhraseQueryTester implements ITester {
 
             long count = this.searchProvider.countTotal();
 
-            this.log.write("Starting "+this.getTestName()+"..");
+            this.log.write("Starting " + this.getTestName() + "..");
 
-            Hashtable<String, Long> queryResultsHashTable = new Hashtable<String,Long>();
+            Hashtable<String, Long> queryResultsHashTable = new Hashtable<String, Long>();
 
             profiler.start();
 
@@ -91,27 +85,27 @@ public class ResponseTimePhraseQueryTester implements ITester {
 
                     long v = queryResultsHashTable.containsKey(profiledQueryResult.getQueryString()) ? queryResultsHashTable.get(profiledQueryResult.getQueryString()) : 0;
 
-                    v+= profiledQueryResult.getRunDuration();
+                    v += profiledQueryResult.getRunDuration();
 
                     queryResultsHashTable.put(profiledQueryResult.getQueryString(), v);
 
 
                     // Write final results
-                    if(i == 10) {
+                    if (i == 10) {
 
                         long totalRunTime = queryResultsHashTable.get(profiledQueryResult.getQueryString());
-                        double averageRunTime = totalRunTime / (double)10;
+                        double averageRunTime = totalRunTime / (double) 10;
 
                         this.resultLog.write(
                                 ""
-                                        +new SimpleDateFormat("dd/MM/yyyy H:mm:ss").format(new Date())
-                                        +","+label
-                                        +","+String.format("%d",(long)count)
-                                        +","+profiledQueryResult.getQueryString().replace(",",".")
-                                        +","+profiledQueryResult.getNumFound()
-                                        +","+totalRunTime
-                                        +","+averageRunTime
-                                        +","+profiledQueryResult.getRunDuration()
+                                        + new SimpleDateFormat("dd/MM/yyyy H:mm:ss").format(new Date())
+                                        + "," + label
+                                        + "," + String.format("%d", (long) count)
+                                        + "," + profiledQueryResult.getQueryString().replace(",", ".")
+                                        + "," + profiledQueryResult.getNumFound()
+                                        + "," + totalRunTime
+                                        + "," + averageRunTime
+                                        + "," + profiledQueryResult.getRunDuration()
                         );
                     }
 
@@ -122,10 +116,10 @@ public class ResponseTimePhraseQueryTester implements ITester {
             profiler.stop();
 
 
-            this.log.write(this.getTestName()+" Complete in " + profiler.getRuntime() + " (" + profiler.getRunTimeSeconds() + "s)");
+            this.log.write(this.getTestName() + " Complete in " + profiler.getRuntime() + " (" + profiler.getRunTimeSeconds() + "s)");
 
         } catch (Exception e) {
-            this.log.write("Exception in "+this.getTestName()+": "+e.getMessage()+" - "+e.toString());
+            this.log.write("Exception in " + this.getTestName() + ": " + e.getMessage() + " - " + e.toString());
             e.printStackTrace();
         }
 

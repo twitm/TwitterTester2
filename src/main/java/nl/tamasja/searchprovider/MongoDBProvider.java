@@ -34,10 +34,9 @@ public class MongoDBProvider implements ISearchProvider {
     };
 
 
-
     public MongoDBProvider(ILog log) {
         this.log = log;
-        this.mongoDBConnector = new MongoDBConnector(this.log,this.servers);
+        this.mongoDBConnector = new MongoDBConnector(this.log, this.servers);
         this.mongoQueryFactory = new MongoQueryFactory();
     }
 
@@ -87,7 +86,7 @@ public class MongoDBProvider implements ISearchProvider {
 
         List<BasicDBObjectBuilder> basicDBObjectBuilders = this.mongoQueryFactory.getPhraseQueryList();
 
-        for(BasicDBObjectBuilder basicDBObjectBuilder : basicDBObjectBuilders) {
+        for (BasicDBObjectBuilder basicDBObjectBuilder : basicDBObjectBuilders) {
             profiledQueryResultList.add(this.runTimedSearchQuery(basicDBObjectBuilder.get()));
         }
 
@@ -100,7 +99,7 @@ public class MongoDBProvider implements ISearchProvider {
 
         List<BasicDBObjectBuilder> basicDBObjectBuilders = this.mongoQueryFactory.getFilteredPhraseQueryList();
 
-        for(BasicDBObjectBuilder basicDBObjectBuilder : basicDBObjectBuilders) {
+        for (BasicDBObjectBuilder basicDBObjectBuilder : basicDBObjectBuilders) {
             profiledQueryResultList.add(this.runTimedSearchQuery(basicDBObjectBuilder.get()));
         }
 
@@ -117,7 +116,7 @@ public class MongoDBProvider implements ISearchProvider {
         String queryString = dbCursor.toString();
         long numFound = dbCursor.count();
 
-        return new ProfiledQueryResult(numFound,duration,queryString);
+        return new ProfiledQueryResult(numFound, duration, queryString);
 
     }
 
@@ -127,7 +126,7 @@ public class MongoDBProvider implements ISearchProvider {
         try {
             deployMongoDB.deploy(this.log);
         } catch (Exception e) {
-            this.log.write("Exception deploying MongoDB: "+e.getMessage()+": "+e.toString());
+            this.log.write("Exception deploying MongoDB: " + e.getMessage() + ": " + e.toString());
             e.printStackTrace();
         }
     }
@@ -145,10 +144,10 @@ public class MongoDBProvider implements ISearchProvider {
         for (String host : this.servers) {
             try {
                 long usage = remoteStatFetcher.getMemoryUsage(host);
-                this.log.write("MongoDBProvider Fetch Memory for "+host+": "+usage);
+                this.log.write("MongoDBProvider Fetch Memory for " + host + ": " + usage);
                 total += usage;
             } catch (Exception e) {
-                this.log.write("Exception in MongoDBProvider.getTotalMemoryUsage for node "+host+": "+e.getMessage()+": "+e.toString());
+                this.log.write("Exception in MongoDBProvider.getTotalMemoryUsage for node " + host + ": " + e.getMessage() + ": " + e.toString());
                 return 0;
             }
         }
@@ -164,10 +163,10 @@ public class MongoDBProvider implements ISearchProvider {
         for (String host : this.servers) {
             try {
                 long usage = remoteStatFetcher.getSwapUsage(host);
-                this.log.write("MongoDBProvider Fetch Swap for "+host+": "+usage);
+                this.log.write("MongoDBProvider Fetch Swap for " + host + ": " + usage);
                 total += usage;
             } catch (Exception e) {
-                this.log.write("Exception in MongoDBProvider.getTotalSwapUsage for node "+host+": "+e.getMessage()+": "+e.toString());
+                this.log.write("Exception in MongoDBProvider.getTotalSwapUsage for node " + host + ": " + e.getMessage() + ": " + e.toString());
                 return 0;
             }
         }
@@ -183,10 +182,10 @@ public class MongoDBProvider implements ISearchProvider {
         for (String host : this.servers) {
             try {
                 long usage = remoteStatFetcher.getDirectorySize(host, "/var/lib/mongo");
-                this.log.write("MongoDBProvider Fetch Disk for "+host+": "+usage);
+                this.log.write("MongoDBProvider Fetch Disk for " + host + ": " + usage);
                 total += usage;
             } catch (Exception e) {
-                this.log.write("Exception in MongoDBProvider.getTotalDiskUsage for node "+host+": "+e.getMessage()+": "+e.toString());
+                this.log.write("Exception in MongoDBProvider.getTotalDiskUsage for node " + host + ": " + e.getMessage() + ": " + e.toString());
                 return 0;
             }
         }

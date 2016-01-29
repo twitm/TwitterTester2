@@ -4,9 +4,7 @@ import nl.tamasja.runnable.RunIndexTweet;
 import nl.tamasja.runnable.RunTester;
 import nl.tamasja.searchprovider.ISearchProvider;
 import nl.tamasja.tools.Profiler;
-import nl.tamasja.tools.TestProfiler;
 import nl.tamasja.tools.log.ILog;
-import nl.tamasja.tools.log.LogVoid;
 import nl.tamasja.tools.log.PrependLog;
 import nl.tamasja.tweetprovider.TweetScanner;
 import nl.tamasja.twitter.Tweet;
@@ -32,7 +30,7 @@ public class LoadedPhraseQueryTester implements ITester {
     protected int runTime = 60000;
     protected int preloadN = 500000;
 
-    public LoadedPhraseQueryTester(ILog log, ILog resultLog, ISearchProvider searchProvider, int threads, int runTime,int stepIncreaseNumber, TweetScanner tweetScanner) {
+    public LoadedPhraseQueryTester(ILog log, ILog resultLog, ISearchProvider searchProvider, int threads, int runTime, int stepIncreaseNumber, TweetScanner tweetScanner) {
         this.log = log;
         this.resultLog = resultLog;
         this.searchProvider = searchProvider;
@@ -51,7 +49,6 @@ public class LoadedPhraseQueryTester implements ITester {
         try {
 
 
-
             Profiler profiler = new Profiler();
             profiler.start();
             ExecutorService executorService = Executors.newFixedThreadPool(1);
@@ -62,13 +59,13 @@ public class LoadedPhraseQueryTester implements ITester {
             this.searchProvider.commit();
             Thread.sleep(1000);
 
-            ILog childLog = new PrependLog(log,"> (LoadedPhraseQueryTester) - ");
+            ILog childLog = new PrependLog(log, "> (LoadedPhraseQueryTester) - ");
 
-            PhraseQueryTester phraseQueryTester = new PhraseQueryTester(childLog,this.resultLog,this.searchProvider,this.threads,this.runTime);
+            PhraseQueryTester phraseQueryTester = new PhraseQueryTester(childLog, this.resultLog, this.searchProvider, this.threads, this.runTime);
 
             List<Tweet> preloadTweetList = this.tweetScanner.fetchTweets(this.preloadN);
             for (Tweet tweet : preloadTweetList) {
-                indexerExecutorService.submit(new RunIndexTweet(this.log,this.searchProvider,tweet));
+                indexerExecutorService.submit(new RunIndexTweet(this.log, this.searchProvider, tweet));
             }
 
             // Sleep a moment to make sure all processes are finished
@@ -76,7 +73,7 @@ public class LoadedPhraseQueryTester implements ITester {
 
             this.log.write("LoadedPhraseQueryTester - Preload finished. Starting test..");
 
-            executorService.submit(new RunTester(phraseQueryTester,label));
+            executorService.submit(new RunTester(phraseQueryTester, label));
 
             this.log.write("LoadedPhraseQueryTester - Waiting for PhraseQueryTester..");
 
@@ -92,7 +89,7 @@ public class LoadedPhraseQueryTester implements ITester {
             this.log.write("LoadedPhraseQueryTest Complete in " + profiler.getRuntime() + " (" + profiler.getRunTimeSeconds() + "s)");
 
         } catch (Exception e) {
-            this.log.write("Exception in LoadedPhraseQueryTester: "+e.getMessage()+" - "+e.toString());
+            this.log.write("Exception in LoadedPhraseQueryTester: " + e.getMessage() + " - " + e.toString());
             e.printStackTrace();
         }
 

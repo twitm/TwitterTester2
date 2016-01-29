@@ -1,7 +1,6 @@
 package nl.tamasja.deploy;
 
 import nl.tamasja.tools.RunRemoteScript;
-import nl.tamasja.tools.RunShellCommand;
 import nl.tamasja.tools.log.ILog;
 
 import java.io.IOException;
@@ -29,7 +28,6 @@ public class DeploySolr implements IDeploySearchProvider {
         Thread.sleep(5000);
 
 
-
         // Restart
         for (String hostname : this.servers) {
             RunRemoteScript.run("shutdown.sh", "", hostname, log);
@@ -42,10 +40,10 @@ public class DeploySolr implements IDeploySearchProvider {
 
         int i = 1;
         for (String hostname : this.servers) {
-            log.write("DeploySolr - Running Solr Installer on "+hostname+": "+i);
+            log.write("DeploySolr - Running Solr Installer on " + hostname + ": " + i);
 
-            String n = i+"";
-            RunRemoteScript.run("solr_install.sh", n , hostname, log);
+            String n = i + "";
+            RunRemoteScript.run("solr_install.sh", n, hostname, log);
             i++;
 
         }
@@ -58,7 +56,7 @@ public class DeploySolr implements IDeploySearchProvider {
 
         // Start Solr Instances
         for (String hostname : this.servers) {
-            RunRemoteScript.run("solr_start.sh", "" , hostname, log);
+            RunRemoteScript.run("solr_start.sh", "", hostname, log);
         }
 
         log.write("DeploySolr - Going to sleep (Waiting for Solr nodes).");
@@ -74,14 +72,14 @@ public class DeploySolr implements IDeploySearchProvider {
 
         // Stop Solr Instances
         for (String hostname : this.servers) {
-            RunRemoteScript.run("solr_stop.sh", "" , hostname, log);
+            RunRemoteScript.run("solr_stop.sh", "", hostname, log);
         }
 
         Thread.sleep(5000);
 
         int i = 1;
         for (String hostname : this.servers) {
-            String n = i+"";
+            String n = i + "";
             RunRemoteScript.run("solr_recover.sh", n, hostname, log);
             i++;
         }
@@ -90,7 +88,7 @@ public class DeploySolr implements IDeploySearchProvider {
 
         // Start Solr Instances
         for (String hostname : this.servers) {
-            RunRemoteScript.run("solr_start.sh", "" , hostname, log);
+            RunRemoteScript.run("solr_start.sh", "", hostname, log);
         }
 
         log.write("DeploySolr - Solr recovery completed.");

@@ -14,7 +14,7 @@ public class LogScreen implements ILog {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy H:mm:ss");
         String formattedDate = sdf.format(date);
 
-        System.out.println("["+formattedDate+"] "+message);
+        System.out.println("[" + formattedDate + "] " + message);
     }
 
     public void write(Object message) {

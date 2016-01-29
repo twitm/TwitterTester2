@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class Profiler {
 
-    protected long startTime,runTime,runTimeSeconds;
+    protected long startTime, runTime, runTimeSeconds;
 
 
     public Profiler() {
@@ -21,13 +21,18 @@ public class Profiler {
 
     public void stop() {
 
-        this.runTime = System.currentTimeMillis()-this.startTime;
+        this.runTime = System.currentTimeMillis() - this.startTime;
         this.runTimeSeconds = TimeUnit.MILLISECONDS.toSeconds(this.runTime);
 
     }
 
-    public long getRuntime() { return this.runTime; }
-    public long getRunTimeSeconds() { return this.runTimeSeconds; }
+    public long getRuntime() {
+        return this.runTime;
+    }
+
+    public long getRunTimeSeconds() {
+        return this.runTimeSeconds;
+    }
 
     public String outputInfo() {
 
@@ -37,8 +42,8 @@ public class Profiler {
         String maxMemory = format.format(runtime.maxMemory() / 1024);
         String totalMemory = format.format(runtime.totalMemory() / 1024);
 
-        return "Runtime: " + this.runTimeSeconds+"s ("+this.runTime+"ms), "+
-                "Memory: Free: "+freeMemory+", Max: "+maxMemory+", Total: "+totalMemory;
+        return "Runtime: " + this.runTimeSeconds + "s (" + this.runTime + "ms), " +
+                "Memory: Free: " + freeMemory + ", Max: " + maxMemory + ", Total: " + totalMemory;
     }
 
 }

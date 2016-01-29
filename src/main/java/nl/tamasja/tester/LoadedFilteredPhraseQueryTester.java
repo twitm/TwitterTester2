@@ -59,13 +59,13 @@ public class LoadedFilteredPhraseQueryTester implements ITester {
             this.searchProvider.commit();
             Thread.sleep(1000);
 
-            ILog childLog = new PrependLog(log,"> (LoadedFilteredPhraseQueryTester) - ");
+            ILog childLog = new PrependLog(log, "> (LoadedFilteredPhraseQueryTester) - ");
 
-            FilteredPhraseQueryTester filteredPhraseQueryTester = new FilteredPhraseQueryTester(childLog,this.resultLog,this.searchProvider,this.threads,this.runTime);
+            FilteredPhraseQueryTester filteredPhraseQueryTester = new FilteredPhraseQueryTester(childLog, this.resultLog, this.searchProvider, this.threads, this.runTime);
 
             List<Tweet> preloadTweetList = this.tweetScanner.fetchTweets(this.preloadN);
             for (Tweet tweet : preloadTweetList) {
-                indexerExecutorService.submit(new RunIndexTweet(this.log,this.searchProvider,tweet));
+                indexerExecutorService.submit(new RunIndexTweet(this.log, this.searchProvider, tweet));
             }
 
             // Sleep a moment to make sure all processes are finished
@@ -73,7 +73,7 @@ public class LoadedFilteredPhraseQueryTester implements ITester {
 
             this.log.write("LoadedFilteredPhraseQueryTester - Preload finished. Starting test..");
 
-            executorService.submit(new RunTester(filteredPhraseQueryTester,label));
+            executorService.submit(new RunTester(filteredPhraseQueryTester, label));
 
             this.log.write("LoadedFilteredPhraseQueryTest - Waiting for PhraseQueryTester..");
 
@@ -89,7 +89,7 @@ public class LoadedFilteredPhraseQueryTester implements ITester {
             this.log.write("LoadedFilteredPhraseQueryTest Complete in " + profiler.getRuntime() + " (" + profiler.getRunTimeSeconds() + "s)");
 
         } catch (Exception e) {
-            this.log.write("Exception in LoadedFilteredPhraseQueryTester: "+e.getMessage()+" - "+e.toString());
+            this.log.write("Exception in LoadedFilteredPhraseQueryTester: " + e.getMessage() + " - " + e.toString());
             e.printStackTrace();
         }
 

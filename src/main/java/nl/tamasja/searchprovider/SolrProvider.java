@@ -49,7 +49,7 @@ public class SolrProvider implements ISearchProvider {
         try {
             this.solrConnector.indexTweet(tweet);
         } catch (Exception e) {
-            this.log.write("SolrProvider indexTweet Exception: "+e.getMessage()+", "+e.toString());
+            this.log.write("SolrProvider indexTweet Exception: " + e.getMessage() + ", " + e.toString());
         }
     }
 
@@ -57,7 +57,7 @@ public class SolrProvider implements ISearchProvider {
         try {
             return this.solrConnector.count();
         } catch (Exception e) {
-            this.log.write("SolrProvider count Exception: "+e.getMessage()+", "+e.toString());
+            this.log.write("SolrProvider count Exception: " + e.getMessage() + ", " + e.toString());
         }
 
         return 0;
@@ -66,9 +66,9 @@ public class SolrProvider implements ISearchProvider {
 
     public void commit() {
         try {
-        this.solrConnector.commit();
+            this.solrConnector.commit();
         } catch (Exception e) {
-            this.log.write("SolrProvider commit Exception: "+e.getMessage()+", "+e.toString());
+            this.log.write("SolrProvider commit Exception: " + e.getMessage() + ", " + e.toString());
         }
     }
 
@@ -77,7 +77,7 @@ public class SolrProvider implements ISearchProvider {
         try {
             this.solrConnector.clearAll();
         } catch (Exception e) {
-            this.log.write("SolrProvider clearAll Exception: "+e.getMessage()+", "+e.toString());
+            this.log.write("SolrProvider clearAll Exception: " + e.getMessage() + ", " + e.toString());
         }
     }
 
@@ -92,7 +92,7 @@ public class SolrProvider implements ISearchProvider {
 
             SolrQuery q = this.solrQueryFactory.getRandomPhraseQuery();
 
-            if(limitResults){
+            if (limitResults) {
                 q.setRows(1000);
             }
 
@@ -100,7 +100,7 @@ public class SolrProvider implements ISearchProvider {
             return queryResponse.getResults().getNumFound();
 
         } catch (Exception e) {
-            this.log.write("SolrProvider executeRandomPhraseQuery Exception: "+e.getMessage()+", "+e.toString());
+            this.log.write("SolrProvider executeRandomPhraseQuery Exception: " + e.getMessage() + ", " + e.toString());
         }
 
         return 0;
@@ -111,7 +111,7 @@ public class SolrProvider implements ISearchProvider {
         try {
             SolrQuery q = this.solrQueryFactory.getRandomFilteredPhraseQuery();
 
-            if(limitResults){
+            if (limitResults) {
                 q.setRows(1000);
             }
 
@@ -119,7 +119,7 @@ public class SolrProvider implements ISearchProvider {
             return queryResponse.getResults().getNumFound();
 
         } catch (Exception e) {
-            this.log.write("SolrProvider executeRandomFilteredPhraseQuery Exception: "+e.getMessage()+", "+e.toString());
+            this.log.write("SolrProvider executeRandomFilteredPhraseQuery Exception: " + e.getMessage() + ", " + e.toString());
         }
 
         return 0;
@@ -132,11 +132,11 @@ public class SolrProvider implements ISearchProvider {
 
         List<SolrQuery> solrQueryList = this.solrQueryFactory.getPhraseQueryList();
 
-        for(SolrQuery solrQuery : solrQueryList) {
+        for (SolrQuery solrQuery : solrQueryList) {
             try {
                 profiledQueryResultList.add(this.runTimedSearchQuery(solrQuery));
             } catch (Exception e) {
-                this.log.write("SolrProvider runTimedPhraseQueries Exception: "+e.getMessage()+", "+e.toString());
+                this.log.write("SolrProvider runTimedPhraseQueries Exception: " + e.getMessage() + ", " + e.toString());
             }
         }
 
@@ -149,11 +149,11 @@ public class SolrProvider implements ISearchProvider {
 
         List<SolrQuery> solrQueryList = this.solrQueryFactory.getFilteredPhraseQueryList();
 
-        for(SolrQuery solrQuery : solrQueryList) {
+        for (SolrQuery solrQuery : solrQueryList) {
             try {
                 profiledQueryResultList.add(this.runTimedSearchQuery(solrQuery));
             } catch (Exception e) {
-                this.log.write("SolrProvider runTimedFilteredPhraseQueries Exception: "+e.getMessage()+", "+e.toString());
+                this.log.write("SolrProvider runTimedFilteredPhraseQueries Exception: " + e.getMessage() + ", " + e.toString());
             }
         }
 
@@ -171,7 +171,7 @@ public class SolrProvider implements ISearchProvider {
         String queryString = solrQuery.toString();
         long numFound = queryResponse.getResults().getNumFound();
 
-        return new ProfiledQueryResult(numFound,duration,queryString);
+        return new ProfiledQueryResult(numFound, duration, queryString);
 
     }
 
@@ -181,7 +181,7 @@ public class SolrProvider implements ISearchProvider {
         try {
             deploySolr.deploy(this.log);
         } catch (Exception e) {
-            this.log.write("Exception deploying Solr: "+e.getMessage()+": "+e.toString());
+            this.log.write("Exception deploying Solr: " + e.getMessage() + ": " + e.toString());
             e.printStackTrace();
         }
     }
@@ -199,10 +199,10 @@ public class SolrProvider implements ISearchProvider {
         for (String host : this.servers) {
             try {
                 long usage = remoteStatFetcher.getMemoryUsage(host);
-                this.log.write("SolrProvider Fetch Memory for "+host+": "+usage);
+                this.log.write("SolrProvider Fetch Memory for " + host + ": " + usage);
                 total += usage;
             } catch (Exception e) {
-                this.log.write("Exception in SolrProvider.getTotalDiskUsage for node "+host+": "+e.getMessage()+": "+e.toString());
+                this.log.write("Exception in SolrProvider.getTotalDiskUsage for node " + host + ": " + e.getMessage() + ": " + e.toString());
                 return 0;
             }
         }
@@ -218,10 +218,10 @@ public class SolrProvider implements ISearchProvider {
         for (String host : this.servers) {
             try {
                 long usage = remoteStatFetcher.getSwapUsage(host);
-                this.log.write("SolrProvider Fetch Swap for "+host+": "+usage);
+                this.log.write("SolrProvider Fetch Swap for " + host + ": " + usage);
                 total += usage;
             } catch (Exception e) {
-                this.log.write("Exception in SolrProvider.getTotalSwapUsage for node "+host+": "+e.getMessage()+": "+e.toString());
+                this.log.write("Exception in SolrProvider.getTotalSwapUsage for node " + host + ": " + e.getMessage() + ": " + e.toString());
                 return 0;
             }
         }
@@ -239,10 +239,10 @@ public class SolrProvider implements ISearchProvider {
             try {
                 //long usage = remoteStatFetcher.getDirectorySize(host, "/etc/solr/solr-4.8.0/example/solr/collection1/data/index/");
                 long usage = remoteStatFetcher.getDirectorySize(host, "/etc/solr/solr-4.8.1/example/solr/");
-                this.log.write("SolrProvider Fetch Disk for "+host+": "+usage);
+                this.log.write("SolrProvider Fetch Disk for " + host + ": " + usage);
                 total += usage;
             } catch (Exception e) {
-                this.log.write("Exception in SolrProvider.getTotalDiskUsage for node "+host+": "+e.getMessage()+": "+e.toString());
+                this.log.write("Exception in SolrProvider.getTotalDiskUsage for node " + host + ": " + e.getMessage() + ": " + e.toString());
                 return 0;
             }
         }

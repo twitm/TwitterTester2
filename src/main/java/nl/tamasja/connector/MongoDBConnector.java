@@ -4,10 +4,7 @@ import com.mongodb.*;
 import nl.tamasja.tools.log.ILog;
 import nl.tamasja.twitter.Tweet;
 
-import javax.xml.bind.DatatypeConverter;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -32,7 +29,7 @@ public class MongoDBConnector {
 
     protected void connect() {
 
-        if(this.mongoClient == null) {
+        if (this.mongoClient == null) {
             try {
 
 
@@ -97,7 +94,7 @@ public class MongoDBConnector {
         log.write(
 
                 this.mongoClient.getDB("admin").command(new BasicDBObject("shardCollection", "twitter.tweets").
-                                append("key", new BasicDBObject("_id", "hashed"))
+                        append("key", new BasicDBObject("_id", "hashed"))
                 )
 
         );
@@ -135,9 +132,8 @@ public class MongoDBConnector {
         WriteConcern wc = WriteConcern.ACKNOWLEDGED;
         wc = wc.continueOnError(true);
 
-        WriteResult writeResult = this.dbCollection.insert(dbObject,wc);
+        WriteResult writeResult = this.dbCollection.insert(dbObject, wc);
     }
-
 
 
 }

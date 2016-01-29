@@ -5,6 +5,7 @@ package nl.tamasja.tester;
  */
 public interface ITester {
     public void writeHeader();
+
     public void runTest(String label);
 
 }

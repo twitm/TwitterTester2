@@ -5,7 +5,6 @@ import nl.tamasja.connector.ElasticSearchConnector;
 import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.index.query.FilterBuilder;
 import org.elasticsearch.index.query.FilterBuilders;
-import org.elasticsearch.index.query.FilteredQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 
 import java.util.ArrayList;
@@ -95,7 +94,7 @@ public class ElasticSearchQueryFactory extends ABaseFactory {
 
         String[] terms = this.getQueryStrings();
 
-        for(String term : terms) {
+        for (String term : terms) {
             searchRequestBuilderList.add(this.elasticSearchConnector.fetchRequestBuilder()
                     .setQuery(QueryBuilders.matchQuery("text", term)));
         }
@@ -110,8 +109,8 @@ public class ElasticSearchQueryFactory extends ABaseFactory {
         String[] terms = this.getQueryStrings();
         FilterBuilder[] filterBuilders = this.getFilters();
 
-        for(String term : terms) {
-            for(FilterBuilder filterBuilder : filterBuilders) {
+        for (String term : terms) {
+            for (FilterBuilder filterBuilder : filterBuilders) {
 
                 searchRequestBuilderList.add(this.elasticSearchConnector.fetchRequestBuilder().setQuery(
                         QueryBuilders.filteredQuery(

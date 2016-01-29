@@ -1,7 +1,5 @@
 package nl.tamasja.tweetprovider;
 
-import com.mongodb.DBObject;
-import com.mongodb.MongoException;
 import nl.tamasja.tools.log.ILog;
 import nl.tamasja.twitter.Tweet;
 import twitter4j.*;
@@ -10,8 +8,6 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.zip.GZIPInputStream;
 
 /**
@@ -59,10 +55,10 @@ public class StatusFileReader {
 
                             Tweet tweet = this.getTweetObjectFromStatus(statusObject);
 
-                            if(fromTweetId != null) {
+                            if (fromTweetId != null) {
 
-                                if(fromTweetId.equals(tweet.getId())) {
-                                    this.log.write("StatusFileReader - Scanner pickup from "+fromTweetId);
+                                if (fromTweetId.equals(tweet.getId())) {
+                                    this.log.write("StatusFileReader - Scanner pickup from " + fromTweetId);
                                     fromTweetId = null;
                                 } else {
                                     skipped++;
@@ -75,7 +71,7 @@ public class StatusFileReader {
                             added++;
                             tweets.add(tweet);
 
-                            if(limit > 0 && added >= limit) {
+                            if (limit > 0 && added >= limit) {
                                 break;
                             }
 
@@ -85,7 +81,7 @@ public class StatusFileReader {
                         }
 
                     } catch (JSONException e) {
-                        this.log.write("Exception in StatusFileReader: Json Parse Failure on: " + status+", "+e.getMessage());
+                        this.log.write("Exception in StatusFileReader: Json Parse Failure on: " + status + ", " + e.getMessage());
                     }
                 } else {
                     ignored++;
@@ -97,16 +93,15 @@ public class StatusFileReader {
             inputStream.close();
 
 
-
         } catch (Exception e) {
-            this.log.write( "Exception in StatusFileReader: Error Reading File: "+e.getClass().getName() + ": " + e.getMessage() );
+            this.log.write("Exception in StatusFileReader: Error Reading File: " + e.getClass().getName() + ": " + e.getMessage());
         }
 
-        long runTimeSeconds = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis()-startTime);
+        long runTimeSeconds = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis() - startTime);
 
-        double ops = ((double) added / (double) Math.max(runTimeSeconds,1));
+        double ops = ((double) added / (double) Math.max(runTimeSeconds, 1));
 
-        this.log.write("StatusFileReader - "+fileLocation+" processed in "+runTimeSeconds+"s. "+added+" ok / "+errors+" errors / "+ignored+" ignored / "+skipped+" skipped. "+ops+" ops. Limit: "+limit+", Fetch: "+tweets.size());
+        this.log.write("StatusFileReader - " + fileLocation + " processed in " + runTimeSeconds + "s. " + added + " ok / " + errors + " errors / " + ignored + " ignored / " + skipped + " skipped. " + ops + " ops. Limit: " + limit + ", Fetch: " + tweets.size());
 
         return tweets;
     }

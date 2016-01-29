@@ -9,8 +9,6 @@ import org.apache.solr.client.solrj.impl.LBHttpSolrServer;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.client.solrj.response.UpdateResponse;
 import org.apache.solr.common.SolrInputDocument;
-import org.elasticsearch.index.query.MatchQueryBuilder;
-import org.elasticsearch.index.query.QueryBuilder;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -34,13 +32,13 @@ public class SolrConnector {
     }
 
     protected SolrServer getSolrServer() throws MalformedURLException {
-        if(this.solrServer == null) {
+        if (this.solrServer == null) {
 
             List<String> addresses = new ArrayList<String>();
 
 
             for (String host : this.servers) {
-                addresses.add("http://"+host+":8983/solr");
+                addresses.add("http://" + host + ":8983/solr");
             }
 
             this.solrServer = new LBHttpSolrServer(addresses.toArray(new String[addresses.size()]));
@@ -62,17 +60,17 @@ public class SolrConnector {
         document.addField("createdAt_dt", tweet.getCreatedAt());
         document.addField("hashtags_ss", tweet.getHashTags());
 
-        document.addField("favCount_i",tweet.getFavCount());
+        document.addField("favCount_i", tweet.getFavCount());
 
-        document.addField("userId_l",tweet.getUserId());
-        document.addField("userName_s",tweet.getUserName());
-        document.addField("userScreenName_s",tweet.getUserScreenName());
+        document.addField("userId_l", tweet.getUserId());
+        document.addField("userName_s", tweet.getUserName());
+        document.addField("userScreenName_s", tweet.getUserScreenName());
 
 
         UpdateResponse response = solrServer.add(document);
 
-        if(response.getStatus() != 0) {
-            this.log.write("[WARNING] indexTweet got non-zero status "+response.getStatus()+": "+response.getResponse());
+        if (response.getStatus() != 0) {
+            this.log.write("[WARNING] indexTweet got non-zero status " + response.getStatus() + ": " + response.getResponse());
         }
 
         //solrServer.commit();
@@ -88,7 +86,7 @@ public class SolrConnector {
     }
 
     public void clearUntil(int n) throws IOException, SolrServerException {
-        this.getSolrServer().deleteByQuery("tweetN_i:[0 TO "+n+"]");
+        this.getSolrServer().deleteByQuery("tweetN_i:[0 TO " + n + "]");
     }
 
     public long count() throws MalformedURLException, SolrServerException {
@@ -100,8 +98,6 @@ public class SolrConnector {
     public QueryResponse searchQuery(SolrQuery solrQuery) throws MalformedURLException, SolrServerException {
         return this.getSolrServer().query(solrQuery);
     }
-
-
 
 
 }

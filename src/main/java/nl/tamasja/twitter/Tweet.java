@@ -32,6 +32,7 @@ public class Tweet {
     public String getText() {
         return text;
     }
+
     public void setText(String text) {
         this.text = text;
     }
@@ -39,6 +40,7 @@ public class Tweet {
     public Date getCreatedAt() {
         return createdAt;
     }
+
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
@@ -46,6 +48,7 @@ public class Tweet {
     public String[] getHashTags() {
         return hashTags;
     }
+
     public void setHashTags(String[] hashTags) {
         this.hashTags = hashTags;
     }
@@ -53,12 +56,18 @@ public class Tweet {
     public double[] getCoordinates() {
         return coordinates;
     }
+
     public void setCoordinates(double[] coordinates) {
         this.coordinates = coordinates;
     }
 
-    public long getTweetN() { return tweetN; }
-    public void setTweetN(long tweetN) { this.tweetN = tweetN; }
+    public long getTweetN() {
+        return tweetN;
+    }
+
+    public void setTweetN(long tweetN) {
+        this.tweetN = tweetN;
+    }
 
     public int getFavCount() {
         return favCount;

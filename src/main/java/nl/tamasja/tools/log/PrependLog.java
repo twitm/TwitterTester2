@@ -2,9 +2,8 @@ package nl.tamasja.tools.log;
 
 /**
  * TIS 28-8-2014.15:55
- *
+ * <p/>
  * Writes log messages with string prepended.
- *
  */
 public class PrependLog implements ILog {
 
@@ -18,11 +17,11 @@ public class PrependLog implements ILog {
 
     @Override
     public void write(String message) {
-        this.log.write(this.prependString+message);
+        this.log.write(this.prependString + message);
     }
 
     @Override
     public void write(Object message) {
-        this.write(this.prependString+String.valueOf(message));
+        this.write(this.prependString + String.valueOf(message));
     }
 }

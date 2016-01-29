@@ -1,11 +1,11 @@
 package nl.tamasja.tester;
 
-import nl.tamasja.tools.TestProfiler;
-import nl.tamasja.tweetprovider.TweetScanner;
 import nl.tamasja.runnable.RunIndexTweet;
 import nl.tamasja.searchprovider.ISearchProvider;
 import nl.tamasja.tools.Profiler;
+import nl.tamasja.tools.TestProfiler;
 import nl.tamasja.tools.log.ILog;
+import nl.tamasja.tweetprovider.TweetScanner;
 import nl.tamasja.twitter.Tweet;
 
 import java.text.SimpleDateFormat;
@@ -38,8 +38,8 @@ public class IndexTester implements ITester {
         this.threads = threads;
         this.runTime = runTime;
 
-        if(this.preloadN >= stepIncreaseNumber) {
-            this.preloadN = stepIncreaseNumber-1;
+        if (this.preloadN >= stepIncreaseNumber) {
+            this.preloadN = stepIncreaseNumber - 1;
         }
 
     }
@@ -66,8 +66,8 @@ public class IndexTester implements ITester {
             List<Tweet> preloadTweetList = this.tweetScanner.fetchTweets(preloadN);
 
 
-            if(preloadTweetList.size() != preloadN) {
-                throw new Exception("PreloadTweetList is "+preloadTweetList.size()+". Expected: "+preloadN);
+            if (preloadTweetList.size() != preloadN) {
+                throw new Exception("PreloadTweetList is " + preloadTweetList.size() + ". Expected: " + preloadN);
             }
 
             this.log.write("IndexTester - Preload finished. Starting test..");
@@ -77,10 +77,10 @@ public class IndexTester implements ITester {
             long startTimeCorrection = System.currentTimeMillis();
 
             for (Tweet tweet : preloadTweetList) {
-                executorService.submit(new RunIndexTweet(this.log,this.searchProvider,tweet,testProfiler));
+                executorService.submit(new RunIndexTweet(this.log, this.searchProvider, tweet, testProfiler));
             }
 
-            Thread.sleep(this.runTime - (System.currentTimeMillis()-startTimeCorrection));
+            Thread.sleep(this.runTime - (System.currentTimeMillis() - startTimeCorrection));
             testProfiler.setEnabled(false);
             profiler.stop();
 
@@ -90,7 +90,7 @@ public class IndexTester implements ITester {
             executorService.awaitTermination(Long.MAX_VALUE, TimeUnit.DAYS);
 
 
-            if(testProfiler.getN().get() >= this.preloadN) {
+            if (testProfiler.getN().get() >= this.preloadN) {
                 this.log.write("[WARNING] IndexTester N is preload N, bad results.");
             }
 
@@ -104,20 +104,20 @@ public class IndexTester implements ITester {
 
             this.resultLog.write(
                     ""
-                            +formattedDate
-                            +","+label
-                            +","+String.format("%d",(long)count)
-                            +","+String.format("%d", (long) testProfiler.getN().get())
-                            +","+profiler.getRuntime()
-                            +","+profiler.getRunTimeSeconds()
-                            +","+ops
+                            + formattedDate
+                            + "," + label
+                            + "," + String.format("%d", (long) count)
+                            + "," + String.format("%d", (long) testProfiler.getN().get())
+                            + "," + profiler.getRuntime()
+                            + "," + profiler.getRunTimeSeconds()
+                            + "," + ops
             );
 
 
             this.log.write("IndexTester Complete: " + ops + " ops in " + profiler.getRuntime() + " (" + profiler.getRunTimeSeconds() + "s)");
 
         } catch (Exception e) {
-            this.log.write("Exception in IndexTester: "+e.getMessage()+" - "+e.toString());
+            this.log.write("Exception in IndexTester: " + e.getMessage() + " - " + e.toString());
             e.printStackTrace();
         }
     }

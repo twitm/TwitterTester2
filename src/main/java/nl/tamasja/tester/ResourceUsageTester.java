@@ -51,24 +51,24 @@ public class ResourceUsageTester implements ITester {
             long totalSwapUsage = this.searchProvider.getTotalSwapUsage();
             long totalDiskUsage = this.searchProvider.getTotalDiskUsage();
 
-            long avgMemoryUsage = totalMemoryUsage/nodeNumber;
-            long avgSwapUsage = totalSwapUsage/nodeNumber;
-            long avgDiskUsage = totalDiskUsage/nodeNumber;
+            long avgMemoryUsage = totalMemoryUsage / nodeNumber;
+            long avgSwapUsage = totalSwapUsage / nodeNumber;
+            long avgDiskUsage = totalDiskUsage / nodeNumber;
 
 
             this.resultLog.write(
                     ""
-                            +new SimpleDateFormat("dd/MM/yyyy H:mm:ss").format(new Date())
-                            +","+label
-                            +","+String.format("%d",(long)count)
-                            +","+String.format("%d",totalMemoryUsage)
-                            +","+String.format("%d",totalSwapUsage)
-                            +","+String.format("%d", totalDiskUsage)
-                            +","+String.format("%d", nodeNumber)
-                            +","+String.format("%d", liveNodeNumber)
-                            +","+String.format("%d", avgMemoryUsage)
-                            +","+String.format("%d", avgSwapUsage)
-                            +","+String.format("%d", avgDiskUsage)
+                            + new SimpleDateFormat("dd/MM/yyyy H:mm:ss").format(new Date())
+                            + "," + label
+                            + "," + String.format("%d", (long) count)
+                            + "," + String.format("%d", totalMemoryUsage)
+                            + "," + String.format("%d", totalSwapUsage)
+                            + "," + String.format("%d", totalDiskUsage)
+                            + "," + String.format("%d", nodeNumber)
+                            + "," + String.format("%d", liveNodeNumber)
+                            + "," + String.format("%d", avgMemoryUsage)
+                            + "," + String.format("%d", avgSwapUsage)
+                            + "," + String.format("%d", avgDiskUsage)
 
             );
 
@@ -77,7 +77,7 @@ public class ResourceUsageTester implements ITester {
             this.log.write("ResourceUsageTest Complete in " + profiler.getRuntime() + " (" + profiler.getRunTimeSeconds() + "s)");
 
         } catch (Exception e) {
-            this.log.write("Exception in ResourceUsageTest: "+e.getMessage()+" - "+e.toString());
+            this.log.write("Exception in ResourceUsageTest: " + e.getMessage() + " - " + e.toString());
             e.printStackTrace();
         }
     }

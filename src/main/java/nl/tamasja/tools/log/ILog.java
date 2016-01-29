@@ -6,6 +6,7 @@ package nl.tamasja.tools.log;
 public interface ILog {
 
     public void write(String message);
+
     public void write(Object message);
 
 }

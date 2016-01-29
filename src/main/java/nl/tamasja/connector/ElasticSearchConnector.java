@@ -21,16 +21,9 @@ import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentFactory;
-import org.elasticsearch.index.query.FilterBuilder;
-import org.elasticsearch.index.query.FilterBuilders;
-import org.elasticsearch.index.query.FilteredQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.search.SearchHit;
 
 import java.io.IOException;
-import java.util.Date;
-import java.util.Map;
-import java.util.Objects;
 
 /**
  * TIS 24-8-2014.11:37
@@ -55,15 +48,15 @@ public class ElasticSearchConnector {
     public void indexTweet(Tweet tweet) throws IOException {
         IndexResponse response = this.makeClient().prepareIndex("twitter", "tweet", tweet.getId())
                 .setSource(XContentFactory.jsonBuilder()
-                                .startObject()
-                                .field("id", tweet.getId())
-                                .field("text", tweet.getText())
-                                .field("created_at", tweet.getCreatedAt())
-                                .field("hashtags", tweet.getHashTags())
-                                .field("userId", tweet.getUserId())
-                                .field("userName", tweet.getUserName())
-                                .field("userScreenName", tweet.getUserName())
-                                .endObject()
+                        .startObject()
+                        .field("id", tweet.getId())
+                        .field("text", tweet.getText())
+                        .field("created_at", tweet.getCreatedAt())
+                        .field("hashtags", tweet.getHashTags())
+                        .field("userId", tweet.getUserId())
+                        .field("userName", tweet.getUserName())
+                        .field("userScreenName", tweet.getUserName())
+                        .endObject()
                 )
                 .execute()
                 .actionGet();
@@ -81,7 +74,7 @@ public class ElasticSearchConnector {
 
     protected Client makeClient() {
         // on startup
-        if(ElasticSearchConnector.client == null) {
+        if (ElasticSearchConnector.client == null) {
 
             Settings settings = ImmutableSettings.settingsBuilder()
                     .put("cluster.name", "elasticsearchtwitter").build();
@@ -101,7 +94,7 @@ public class ElasticSearchConnector {
     }
 
     public void closeClient() {
-        if(ElasticSearchConnector.client != null) {
+        if (ElasticSearchConnector.client != null) {
             ElasticSearchConnector.client.close();
             ElasticSearchConnector.client = null;
         }
@@ -122,7 +115,7 @@ public class ElasticSearchConnector {
 
     protected void deleteIndex() {
 
-        if(this.indexExist("twitter")) {
+        if (this.indexExist("twitter")) {
             this.makeClient().admin().indices().delete(new DeleteIndexRequest("twitter")).actionGet();
         }
 
@@ -130,7 +123,7 @@ public class ElasticSearchConnector {
 
     protected void createIndex() throws IOException {
 
-        if(this.indexExist("twitter")) {
+        if (this.indexExist("twitter")) {
             return;
         }
 
@@ -150,8 +143,6 @@ public class ElasticSearchConnector {
                 .endObject()
                 .endObject()
                 .endObject();
-
-
 
 
         PutMappingResponse putMappingResponse = this.makeClient().admin().indices()

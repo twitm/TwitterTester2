@@ -1,8 +1,8 @@
 package nl.tamasja.runnable;
 
-import nl.tamasja.tools.TestProfiler;
 import nl.tamasja.searchprovider.ISearchProvider;
 import nl.tamasja.tools.Profiler;
+import nl.tamasja.tools.TestProfiler;
 import nl.tamasja.tools.log.ILog;
 import nl.tamasja.twitter.Tweet;
 
@@ -35,7 +35,7 @@ public class RunIndexTweet implements Runnable {
         try {
 
 
-            if(this.testProfiler == null) {
+            if (this.testProfiler == null) {
                 this.searchProvider.indexTweet(tweet);
             } else {
                 //Go into test mode
@@ -53,7 +53,7 @@ public class RunIndexTweet implements Runnable {
                 }
             }
         } catch (Exception e) {
-            this.log.write("[WARNING] RunIndexTweet Exception: "+e.getMessage()+", "+e.toString());
+            this.log.write("[WARNING] RunIndexTweet Exception: " + e.getMessage() + ", " + e.toString());
         }
     }
 }

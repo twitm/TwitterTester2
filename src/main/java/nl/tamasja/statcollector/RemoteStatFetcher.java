@@ -18,7 +18,7 @@ public class RemoteStatFetcher {
     }
 
     public long getDirectorySize(String host, String directory) throws IOException, InterruptedException {
-        return Long.parseLong(RunShellCommand.executeRemoteHost("du -s "+directory+" | awk '{ print $1 }'",host));
+        return Long.parseLong(RunShellCommand.executeRemoteHost("du -s " + directory + " | awk '{ print $1 }'", host));
     }
 
 }

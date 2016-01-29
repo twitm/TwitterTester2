@@ -1,9 +1,9 @@
 package nl.tamasja.tester;
 
-import nl.tamasja.tools.TestProfiler;
 import nl.tamasja.runnable.RunExecuteRandomFilteredPhraseQuery;
 import nl.tamasja.searchprovider.ISearchProvider;
 import nl.tamasja.tools.Profiler;
+import nl.tamasja.tools.TestProfiler;
 import nl.tamasja.tools.log.ILog;
 
 import java.text.SimpleDateFormat;
@@ -58,21 +58,21 @@ public class FilteredPhraseQueryTester implements ITester {
             long startTimeCorrection = System.currentTimeMillis();
 
             for (int i = 0; i < this.preloadN; i++) {
-                executorService.submit(new RunExecuteRandomFilteredPhraseQuery(this.log,testProfiler,this.searchProvider,true));
+                executorService.submit(new RunExecuteRandomFilteredPhraseQuery(this.log, testProfiler, this.searchProvider, true));
             }
 
-            Thread.sleep(this.runTime - (System.currentTimeMillis()-startTimeCorrection));
+            Thread.sleep(this.runTime - (System.currentTimeMillis() - startTimeCorrection));
 
             testProfiler.setEnabled(false);
 
             profiler.stop();
-            this.log.write("FilteredPhraseQueryTest Finished. Awaiting Tasks.. N is "+testProfiler.getN().get());
+            this.log.write("FilteredPhraseQueryTest Finished. Awaiting Tasks.. N is " + testProfiler.getN().get());
 
             executorService.shutdown();
             executorService.awaitTermination(Long.MAX_VALUE, TimeUnit.DAYS);
 
 
-            if(testProfiler.getN().get() >= this.preloadN) {
+            if (testProfiler.getN().get() >= this.preloadN) {
                 this.log.write("[WARNING] FilteredPhraseQueryTester N is preload N, bad results.");
             }
 
@@ -85,19 +85,19 @@ public class FilteredPhraseQueryTester implements ITester {
 
             this.resultLog.write(
                     ""
-                            +formattedDate
-                            +","+label
-                            +","+String.format("%d",(long)count)
-                            +","+String.format("%d", (long) testProfiler.getN().get())
-                            +","+profiler.getRuntime()
-                            +","+profiler.getRunTimeSeconds()
-                            +","+ops
+                            + formattedDate
+                            + "," + label
+                            + "," + String.format("%d", (long) count)
+                            + "," + String.format("%d", (long) testProfiler.getN().get())
+                            + "," + profiler.getRuntime()
+                            + "," + profiler.getRunTimeSeconds()
+                            + "," + ops
             );
 
             this.log.write("FilteredPhraseQueryTest Complete: " + ops + " ops in " + profiler.getRuntime() + " (" + profiler.getRunTimeSeconds() + "s)");
 
         } catch (Exception e) {
-            this.log.write("Exception in FilteredPhraseQueryTest: "+e.getMessage()+" - "+e.toString());
+            this.log.write("Exception in FilteredPhraseQueryTest: " + e.getMessage() + " - " + e.toString());
             e.printStackTrace();
         }
 

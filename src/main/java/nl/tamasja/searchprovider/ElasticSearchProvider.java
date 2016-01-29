@@ -67,7 +67,7 @@ public class ElasticSearchProvider implements ISearchProvider {
         try {
             this.elasticSearchConnector.clearAll();
         } catch (Exception e) {
-            this.log.write("Exception in ElasticSearchProvider.clearAll: "+e.getMessage());
+            this.log.write("Exception in ElasticSearchProvider.clearAll: " + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -82,7 +82,7 @@ public class ElasticSearchProvider implements ISearchProvider {
         try {
             this.elasticSearchConnector.indexTweet(tweet);
         } catch (IOException e) {
-            this.log.write("Exception in ElasticSearchProvider.indexTweet: "+e.getMessage()+" - "+e.toString());
+            this.log.write("Exception in ElasticSearchProvider.indexTweet: " + e.getMessage() + " - " + e.toString());
             e.printStackTrace();
         }
     }
@@ -92,7 +92,7 @@ public class ElasticSearchProvider implements ISearchProvider {
 
         SearchRequestBuilder searchRequestBuilder = this.elasticSearchQueryFactory.getRandomPhraseQuery();
 
-        if(limitResults) {
+        if (limitResults) {
             searchRequestBuilder = searchRequestBuilder.setFrom(0).setSize(1000);
         }
 
@@ -105,7 +105,7 @@ public class ElasticSearchProvider implements ISearchProvider {
 
         SearchRequestBuilder searchRequestBuilder = this.elasticSearchQueryFactory.getRandomFilteredPhraseQuery();
 
-        if(limitResults) {
+        if (limitResults) {
             searchRequestBuilder = searchRequestBuilder.setFrom(0).setSize(1000);
         }
 
@@ -117,14 +117,13 @@ public class ElasticSearchProvider implements ISearchProvider {
     }
 
 
-
     @Override
     public void deploy() {
         DeployElasticSearch deployElasticSearch = new DeployElasticSearch(this.servers);
         try {
             deployElasticSearch.deploy(this.log);
         } catch (Exception e) {
-            this.log.write("Exception deploying ElasticSearch: "+e.getMessage()+": "+e.toString());
+            this.log.write("Exception deploying ElasticSearch: " + e.getMessage() + ": " + e.toString());
             e.printStackTrace();
         }
     }
@@ -142,10 +141,10 @@ public class ElasticSearchProvider implements ISearchProvider {
         for (String host : this.servers) {
             try {
                 long usage = remoteStatFetcher.getMemoryUsage(host);
-                this.log.write("ElasticSearchProvider Fetch Memory for "+host+": "+usage);
+                this.log.write("ElasticSearchProvider Fetch Memory for " + host + ": " + usage);
                 total += usage;
             } catch (Exception e) {
-                this.log.write("Exception in ElasticSearchProvider.getTotalMemoryUsage for node "+host+": "+e.getMessage()+": "+e.toString());
+                this.log.write("Exception in ElasticSearchProvider.getTotalMemoryUsage for node " + host + ": " + e.getMessage() + ": " + e.toString());
                 return 0;
             }
         }
@@ -161,10 +160,10 @@ public class ElasticSearchProvider implements ISearchProvider {
         for (String host : this.servers) {
             try {
                 long usage = remoteStatFetcher.getSwapUsage(host);
-                this.log.write("ElasticSearchProvider Fetch Swap for "+host+": "+usage);
+                this.log.write("ElasticSearchProvider Fetch Swap for " + host + ": " + usage);
                 total += usage;
             } catch (Exception e) {
-                this.log.write("Exception in ElasticSearchProvider.getTotalSwapUsage for node "+host+": "+e.getMessage()+": "+e.toString());
+                this.log.write("Exception in ElasticSearchProvider.getTotalSwapUsage for node " + host + ": " + e.getMessage() + ": " + e.toString());
                 return 0;
             }
         }
@@ -181,10 +180,10 @@ public class ElasticSearchProvider implements ISearchProvider {
         for (String host : this.servers) {
             try {
                 long usage = remoteStatFetcher.getDirectorySize(host, "/var/lib/elasticsearch");
-                this.log.write("ElasticSearchProvider Fetch Disk for "+host+": "+usage);
+                this.log.write("ElasticSearchProvider Fetch Disk for " + host + ": " + usage);
                 total += usage;
             } catch (Exception e) {
-                this.log.write("Exception in ElasticSearchProvider.getTotalDiskUsage for node "+host+": "+e.getMessage()+": "+e.toString());
+                this.log.write("Exception in ElasticSearchProvider.getTotalDiskUsage for node " + host + ": " + e.getMessage() + ": " + e.toString());
                 return 0;
             }
         }
@@ -211,7 +210,7 @@ public class ElasticSearchProvider implements ISearchProvider {
 
         List<SearchRequestBuilder> searchRequestBuilders = this.elasticSearchQueryFactory.getPhraseQueryList();
 
-        for(SearchRequestBuilder searchRequestBuilder : searchRequestBuilders) {
+        for (SearchRequestBuilder searchRequestBuilder : searchRequestBuilders) {
             profiledQueryResultList.add(this.runTimedSearchQuery(searchRequestBuilder));
         }
 
@@ -225,7 +224,7 @@ public class ElasticSearchProvider implements ISearchProvider {
 
         List<SearchRequestBuilder> searchRequestBuilders = this.elasticSearchQueryFactory.getFilteredPhraseQueryList();
 
-        for(SearchRequestBuilder searchRequestBuilder : searchRequestBuilders) {
+        for (SearchRequestBuilder searchRequestBuilder : searchRequestBuilders) {
             profiledQueryResultList.add(this.runTimedSearchQuery(searchRequestBuilder));
         }
 
@@ -242,7 +241,7 @@ public class ElasticSearchProvider implements ISearchProvider {
         String queryString = searchRequestBuilder.toString().replace("\n", "").replace("\r", "");
         long numFound = searchResponse.getHits().getTotalHits();
 
-        return new ProfiledQueryResult(numFound,duration,queryString);
+        return new ProfiledQueryResult(numFound, duration, queryString);
 
     }
 
